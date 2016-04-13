@@ -26,9 +26,10 @@ def get_stadium_coordinates(stadium_name):
     True
     """
     WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/"
-    stadium_name = stadium_name.replace(" ", "_")
 
+    stadium_name = stadium_name.replace(" ", "_")
     r = requests.get(WIKIPEDIA_URL + stadium_name)
+
     stadium_soup = BeautifulSoup(r.content, "lxml")
     location_html = stadium_soup.select_one("span.geo-dec")
     if not location_html:
@@ -42,7 +43,7 @@ def get_stadium_coordinates(stadium_name):
     def decimalize(l):
         """Convert text lat or long to decimal."""
         return float(l[:-1]) * sign_dict[l[-1]]
+
     latitude = decimalize(latitude)
     longitude = decimalize(longitude)
-
     return (latitude, longitude)
