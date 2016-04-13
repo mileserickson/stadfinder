@@ -22,6 +22,8 @@ def get_stadium_coordinates(stadium_name):
     --------
     >>> get_stadium_coordinates("CenturyLink Field")
     (47.5952, -122.3316)
+    >>> get_stadium_coordinates("Trumpeter Swan Arena 679") == None
+    True
     """
     WIKIPEDIA_URL = "https://en.wikipedia.org/wiki/"
     stadium_name = stadium_name.replace(" ", "_")
@@ -29,6 +31,8 @@ def get_stadium_coordinates(stadium_name):
     r = requests.get(WIKIPEDIA_URL + stadium_name)
     stadium_soup = BeautifulSoup(r.content, "lxml")
     location_html = stadium_soup.select_one("span.geo-dec")
+    if not location_html:
+        return None  # Stadium not found
     location = location_html.get_text().encode('ascii', 'ignore')
     latitude, longitude = location.split()
 
